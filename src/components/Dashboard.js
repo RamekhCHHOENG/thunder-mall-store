@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    backgroundColor: "#ff5722"
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -81,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-  },
+  }
 }));
 
 export default function MiniDrawer() {

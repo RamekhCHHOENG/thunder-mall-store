@@ -1,7 +1,6 @@
 
 import React, { Component } from "react";
-import { Container, Box } from '@material-ui/core'
-import { Redirect } from "react-router-dom";
+import { Container, Box, Button, TextField} from '@material-ui/core'
 
 export default class Login extends Component {
     render() {
@@ -10,15 +9,23 @@ export default class Login extends Component {
             <Box mt="40px">
               <form>
                   <h3>Sign In</h3>
-                  <div className="form-group">
-                      <label>Email address</label>
-                      <input type="email" className="form-control" placeholder="Enter email" />
-                  </div>
+                  <TextField
+                        label="Email"
+                        id="outlined-size-small"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                    />
+                  <TextField
+                        label="Password"
+                        id="outlined-size-small"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                    />
 
-                  <div className="form-group">
-                      <label>Password</label>
-                      <input type="password" className="form-control" placeholder="Enter password" />
-                  </div>
 
                   <div className="form-group">
                       <div className="custom-control custom-checkbox">
@@ -27,7 +34,7 @@ export default class Login extends Component {
                       </div>
                   </div>
 
-                  <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                  <Button variant="contained" color="secondary">Sign In</Button>
                   <p className="forgot-password text-right">
                       Forgot <a href="#">password?</a>
                   </p>

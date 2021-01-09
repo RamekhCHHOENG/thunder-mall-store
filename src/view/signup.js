@@ -1,35 +1,56 @@
 import React, { Component } from "react";
-import { Container, Box } from '@material-ui/core'
+import { 
+    Container,
+    Box,
+    Button,
+    TextField }
+from '@material-ui/core'
 
 export default class SignUp extends Component {
     render() {
         return (
           <Container maxWidth="sm">
-            <Box mt="40px">
-              <form>
+            <Box mt={10} >
+              <form p={20}>
                   <h3>Sign Up</h3>
+                    <TextField
+                        label="First Name"
+                        id="outlined-size-small"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                    />
+                    <TextField
+                        label="Last Name"
+                        id="outlined-size-small"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                    />
+                    <TextField
+                        label="Email"
+                        id="outlined-size-small"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                    />
+                    <TextField
+                        label="Password"
+                        id="outlined-size-small"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                    />
 
-                  <div className="form-group">
-                      <label>First name</label>
-                      <input type="text" className="form-control" placeholder="First name" />
-                  </div>
-
-                  <div className="form-group">
-                      <label>Last name</label>
-                      <input type="text" className="form-control" placeholder="Last name" />
-                  </div>
-
-                  <div className="form-group">
-                      <label>Email address</label>
-                      <input type="email" className="form-control" placeholder="Enter email" />
-                  </div>
-
-                  <div className="form-group">
-                      <label>Password</label>
-                      <input type="password" className="form-control" placeholder="Enter password" />
-                  </div>
-
-                  <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        margin="normal"
+                    >Sign Up</Button>
                   <p className="forgot-password text-right">
                       Already registered <a href="#">sign in?</a>
                   </p>
