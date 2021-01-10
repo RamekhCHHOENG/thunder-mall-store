@@ -19,6 +19,10 @@ import { Home, CreditCard, Category, Settings, ShoppingCart, PowerSettingsNew } 
 
 import HomeFragement from '../view/Home'
 import CategoryFragement from '../view/Categery'
+import PaymentFragment from '../view/Payment/PaymentMethod'
+import ProductsFragment from '../view/Products'
+import OrdersFragment from '../view/Orders'
+import SettingsFragement from '../view/Settings'
 
 const drawerWidth = 240;
 
@@ -107,6 +111,14 @@ export default function MiniDrawer() {
         return <HomeFragement/>;
       case "CATEGORY":
         return <CategoryFragement/>;
+      case "Payment":
+        return <PaymentFragment/>;
+      case "Products":
+        return <ProductsFragment/>;
+      case "Orders":
+        return <OrdersFragment/>;
+      case "Settings":
+        return <SettingsFragement/>;
       default:
         break;
     }
@@ -170,25 +182,25 @@ export default function MiniDrawer() {
             </ListItemIcon>
             <ListItemText primary="Category" />
           </ListItem>
-          <ListItem button onClick={e=>setfragment("CATEGORY")}>
+          <ListItem button onClick={e=>setfragment("Products")}>
             <ListItemIcon>
               <Home/>
             </ListItemIcon>
             <ListItemText primary="Products" />
           </ListItem>
-          <ListItem button onClick={e=>setfragment("CATEGORY")}>
+          <ListItem button onClick={e=>setfragment("Orders")}>
             <ListItemIcon>
               <ShoppingCart/>
             </ListItemIcon>
             <ListItemText primary="Orders" />
           </ListItem>
-          <ListItem button onClick={e=>setfragment("CATEGORY")}>
+          <ListItem button onClick={e=>setfragment("Payment")}>
             <ListItemIcon>
               <CreditCard/>
             </ListItemIcon>
             <ListItemText primary="Payments" />
           </ListItem>
-          <ListItem button onClick={e=>setfragment("CATEGORY")}>
+          <ListItem button onClick={e=>setfragment("Settings")}>
             <ListItemIcon>
               <Settings/>
             </ListItemIcon>
