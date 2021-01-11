@@ -15,8 +15,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Home, CreditCard, Category, Settings, ShoppingCart, PowerSettingsNew } from '@material-ui/icons';
-
+import { Home, CreditCard, Category, Settings, ShoppingCart, PowerSettingsNew, Store } from '@material-ui/icons';
+import { Link } from 'react-router-dom' 
+import NavItem from './NavItem'
 import HomeFragement from '../view/Home'
 import CategoryFragement from '../view/Categery'
 import PaymentFragment from '../view/Payment/PaymentMethod'
@@ -24,7 +25,7 @@ import ProductsFragment from '../view/Products'
 import OrdersFragment from '../view/Orders'
 import SettingsFragement from '../view/Settings/index'
 
-const drawerWidth = 240;
+const drawerWidth = 180;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: 20,
   },
   hide: {
     display: 'none',
@@ -70,16 +71,17 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
+    width: theme.spacing(5) + 1,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
+      width: theme.spacing(5.7) + 1,
     },
   },
   toolbar: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 0),
+    height: theme.spacing(0),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
@@ -107,11 +109,11 @@ export default function MiniDrawer() {
   const loadPageContent = () => {
     console.log(fragment, 'this is fragment===========');
     switch (fragment) {
-      case "HOME":
+      case "Home":
         return <HomeFragement/>;
-      case "CATEGORY":
+      case "Categorys":
         return <CategoryFragement/>;
-      case "Payment":
+      case "Payments":
         return <PaymentFragment/>;
       case "Products":
         return <ProductsFragment/>;
@@ -145,7 +147,7 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap>
+          <Typography variant="h6" noWrap>
             Product Management
           </Typography>
         </Toolbar>
@@ -170,52 +172,63 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          <ListItem button onClick={e=>setfragment("HOME")}>
-            <ListItemIcon>
-              <Home/>
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem button onClick={e=>setfragment("CATEGORY")}>
-            <ListItemIcon>
-              <Category/>
-            </ListItemIcon>
-            <ListItemText primary="Category" />
-          </ListItem>
-          <ListItem button onClick={e=>setfragment("Products")}>
-            <ListItemIcon>
-              <Home/>
-            </ListItemIcon>
-            <ListItemText primary="Products" />
-          </ListItem>
-          <ListItem button onClick={e=>setfragment("Orders")}>
-            <ListItemIcon>
-              <ShoppingCart/>
-            </ListItemIcon>
-            <ListItemText primary="Orders" />
-          </ListItem>
-          <ListItem button onClick={e=>setfragment("Payment")}>
-            <ListItemIcon>
-              <CreditCard/>
-            </ListItemIcon>
-            <ListItemText primary="Payments" />
-          </ListItem>
-          <ListItem button onClick={e=>setfragment("Settings")}>
-            <ListItemIcon>
-              <Settings/>
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
+          <NavItem 
+            href="/"
+            key={1}
+            title="Home"
+            icon={Home}
+            style={{marginLeft: "6px"}}
+            onClick={e=>setfragment("Home")}>
+          </NavItem>
+          <NavItem 
+            href="/"
+            key={2}
+            title="Category"
+            icon={Category}
+            style={{marginLeft: "6px"}}
+            onClick={e=>setfragment("Categorys")}>
+          </NavItem>
+          <NavItem 
+            href="/"
+            key={3}
+            title="Products"
+            icon={Store}
+            style={{marginLeft: "6px"}}
+            onClick={e=>setfragment("Products")}>
+          </NavItem>
+          <NavItem 
+            href="/"
+            key={4}
+            title="Orders"
+            icon={ShoppingCart}
+            style={{marginLeft: "6px"}}
+            onClick={e=>setfragment("Orders")}>
+          </NavItem>
+          <NavItem 
+            href="/"
+            key={5}
+            title="Payments"
+            icon={CreditCard}
+            style={{marginLeft: "6px"}}
+            onClick={e=>setfragment("Payments")}>
+          </NavItem>
+          <NavItem 
+            href="/"
+            key={6}
+            title="Settings"
+            icon={Settings}
+            style={{marginLeft: "6px"}}
+            onClick={e=>setfragment("Settings")}>
+          </NavItem>
         </List>
         <Divider/>
-        <List>
-          <ListItem button onClick={e=>setfragment("CATEGORY")}>
-              <ListItemIcon>
-                <PowerSettingsNew/>
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItem>
-        </List>
+        <NavItem 
+            href="/login"
+            title="Settings"
+            icon={PowerSettingsNew}
+            style={{marginLeft: "6px"}}
+            onClick={e=>setfragment("Settings")}>
+          </NavItem>
         <Divider/>
       </Drawer>
       <main className={classes.content}>

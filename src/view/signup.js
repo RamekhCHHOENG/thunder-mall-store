@@ -5,6 +5,7 @@ import {
     Button,
     TextField }
 from '@material-ui/core'
+import { Link } from 'react-router-dom'
 
 export default class SignUp extends Component {
     render() {
@@ -46,13 +47,16 @@ export default class SignUp extends Component {
                         size="small"
                     />
 
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        margin="normal"
-                    >Sign Up</Button>
+                <Link to="/login">
+                <Button
+                    align="center"
+                    variant="contained" 
+                    color="secondary"
+                    >Submit
+                </Button>
+                </Link>
                   <p className="forgot-password text-right">
-                      Already registered <a href="#">sign in?</a>
+                      Already registered? <Link to="/login"> Sign In</Link>
                   </p>
               </form>
             </Box>

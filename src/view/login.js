@@ -1,7 +1,7 @@
 
 import React, { Component } from "react";
 import { Container, Box, Button, TextField} from '@material-ui/core'
-
+import { Link } from 'react-router-dom'
 export default class Login extends Component {
     render() {
         return (
@@ -34,13 +34,21 @@ export default class Login extends Component {
                       </div>
                   </div>
 
-                  <Button variant="contained" color="secondary">Sign In</Button>
+                  <Link to="/">
+                    <Button
+                      align="center"
+                      variant="contained" 
+                      color="secondary"
+                      >Sign In
+                    </Button>
+                  </Link>
                   <p className="forgot-password text-right">
                       Forgot <a href="#">password?</a>
                   </p>
               </form>
-
-              <a href="">Don't have account?</a>
+              <Link to="/signup">
+                <span>Don't have account?</span>
+              </Link>
             </Box>
           </Container>
         );
