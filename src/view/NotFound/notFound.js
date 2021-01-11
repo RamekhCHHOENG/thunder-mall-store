@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import {
   Box,
   Container,
@@ -34,12 +35,14 @@ const notFound = () => {
             Whichever it is, try using the navigation
           </Typography>
           <Typography align="center" mt="20px">
-            <Button
-              align="center"
-              variant="contained" 
-              color="secondary"
-              >Go Back
-            </Button>
+            <Link to="/">
+              <Button
+                align="center"
+                variant="contained" 
+                color="secondary"
+                >Go Back
+              </Button>
+            </Link>
           </Typography>
         </Container>
       </Box>

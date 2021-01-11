@@ -16,6 +16,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Home, CreditCard, Category, Settings, ShoppingCart, PowerSettingsNew } from '@material-ui/icons';
+import { Link } from 'react-router-dom' 
 
 import HomeFragement from '../view/Home'
 import CategoryFragement from '../view/Categery'
@@ -209,12 +210,14 @@ export default function MiniDrawer() {
         </List>
         <Divider/>
         <List>
+        <Link to="/login">
           <ListItem button>
               <ListItemIcon>
                 <PowerSettingsNew/>
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
+        </Link>
         </List>
         <Divider/>
       </Drawer>
