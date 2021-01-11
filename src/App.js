@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import Login from './view/login'
 import SignUp from './view/signup'
-import NotFound from './view/notFound'
+import NotFound from './view/NotFound/index'
 import Dashboard from './components/Dashboard'
 
 function App() {
