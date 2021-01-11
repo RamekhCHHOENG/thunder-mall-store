@@ -16,10 +16,10 @@ export default function SimpleCard() {
     <Card style={cardStyle}>
       <CardContent pt="30px">
         <Typography variant="h6">
-          XXXX XXXX 87989 9998
+          XXXX XXXX 87989 5998
         </Typography>
         <Typography>
-          Expired 12/23
+          Expired 11/2021
         </Typography>
 
         <Grid container justify="flex-end"> 
@@ -35,10 +35,48 @@ export default function SimpleCard() {
     <Card style={cardStyle}>
       <CardContent pt="30px">
         <Typography variant="h6">
-          XXXX XXXX 87989 9998
+          XXXX XXXX 99994 9798
         </Typography>
         <Typography>
-          Expired 12/23
+          Expired 04/2021
+        </Typography>
+
+        <Grid container justify="flex-end"> 
+          <IconButton>
+            <Create />
+        </IconButton>
+          <IconButton>
+            <Delete style={{color: "#e31721"}}/>
+        </IconButton>
+        </Grid>
+      </CardContent>
+    </Card>
+    <Card style={cardStyle}>
+      <CardContent pt="30px">
+        <Typography variant="h6">
+          XXXX XXXX 87989 93443
+        </Typography>
+        <Typography>
+          Expired 09/2021
+        </Typography>
+
+        <Grid container justify="flex-end"> 
+          <IconButton>
+            <Create />
+        </IconButton>
+          <IconButton>
+            <Delete style={{color: "#e31721"}}/>
+        </IconButton>
+        </Grid>
+      </CardContent>
+    </Card>
+    <Card style={cardStyle}>
+      <CardContent pt="30px">
+        <Typography variant="h6">
+          XXXX XXXX 93435 9998
+        </Typography>
+        <Typography>
+          Expired 10/2021
         </Typography>
 
         <Grid container justify="flex-end"> 
