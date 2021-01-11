@@ -209,7 +209,7 @@ export default function MiniDrawer() {
         </List>
         <Divider/>
         <List>
-          <ListItem button onClick={e=>setfragment("CATEGORY")}>
+          <ListItem button>
               <ListItemIcon>
                 <PowerSettingsNew/>
               </ListItemIcon>
