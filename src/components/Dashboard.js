@@ -22,7 +22,7 @@ import CategoryFragement from '../view/Categery'
 import PaymentFragment from '../view/Payment/PaymentMethod'
 import ProductsFragment from '../view/Products'
 import OrdersFragment from '../view/Orders'
-import SettingsFragement from '../view/Settings'
+import SettingsFragement from '../view/Settings/index'
 
 const drawerWidth = 240;
 
