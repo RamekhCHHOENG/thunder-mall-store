@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useCallback } from "react";
 import { 
     Container,
     Box,
@@ -6,61 +6,83 @@ import {
     TextField }
 from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import fire from '../fire'
+import { withRouter } from "react-router"
 
-export default class SignUp extends Component {
-    render() {
-        return (
-          <Container maxWidth="sm">
-            <Box mt={10} >
-              <form p={20}>
-                  <h3>Sign Up</h3>
-                    <TextField
-                        label="First Name"
-                        id="outlined-size-small"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        size="small"
-                    />
-                    <TextField
-                        label="Last Name"
-                        id="outlined-size-small"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        size="small"
-                    />
-                    <TextField
-                        label="Email"
-                        id="outlined-size-small"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        size="small"
-                    />
-                    <TextField
-                        label="Password"
-                        id="outlined-size-small"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        size="small"
-                    />
-
-                <Link to="/login">
-                <Button
-                    align="center"
-                    variant="contained" 
-                    color="secondary"
-                    >Submit
-                </Button>
-                </Link>
-                  <p className="forgot-password text-right">
-                      Already registered? <Link to="/login"> Sign In</Link>
-                  </p>
-              </form>
-            </Box>
-          </Container>
-        );
-    }
+const SignUp = ({history}) => {
+  const handleSignUp = useCallback( async event => {
+      event.preventDefault();
+      const { email, password } = event.target.elements;
+      try {
+        await fire
+        .auth() 
+        .createUserWithEmailAndPassword(email.value, password.value);
+        alert("create new user success", email.value, password.value)
+        history.push("/");
+      } catch(error) {
+        alert(error)
+      }
+    }, [history]
+  );
+  return (
+    <Container maxWidth="sm">
+      <Box mt={10} >
+        <form p={20} onSubmit={handleSignUp}>
+            <h3>Sign Up</h3>
+              <TextField
+                  label="First Name"
+                  id="outlined-size-small"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  size="small"
+                  type="text"
+                  name="firstname"
+              />
+              <TextField
+                  label="Last Name"
+                  id="outlined-size-small"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  size="small"
+                  type="text"
+                  name="lastname"
+              />
+              <TextField
+                  label="Email"
+                  id="outlined-size-small"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  size="small"
+                  type="email"
+                  name="email"
+              />
+              <TextField
+                  label="Password"
+                  id="outlined-size-small"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  size="small"
+                  type="password"
+                  name="password"
+              />
+          <Button
+              align="center"
+              variant="contained" 
+              color="secondary"
+              type="submit"
+              >Submit
+          </Button>
+            <p className="forgot-password text-right">
+                Already registered? <Link to="/login"> Sign In</Link>
+            </p>
+        </form>
+      </Box>
+    </Container>
+  );
 }
+
+export default withRouter(SignUp);

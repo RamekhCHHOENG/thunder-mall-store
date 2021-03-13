@@ -24,6 +24,7 @@ import PaymentFragment from '../view/Payment/PaymentMethod'
 import ProductsFragment from '../view/Products'
 import OrdersFragment from '../view/Orders'
 import SettingsFragement from '../view/Settings/index'
+import fire from '../fire'
 
 const drawerWidth = 180;
 
@@ -91,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MiniDrawer() {
+const MiniDrawer = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -107,7 +108,6 @@ export default function MiniDrawer() {
   const [fragment, setfragment] = useState("HOME")
 
   const loadPageContent = () => {
-    console.log(fragment, 'this is fragment===========');
     switch (fragment) {
       case "Home":
         return <HomeFragement/>;
@@ -122,8 +122,12 @@ export default function MiniDrawer() {
       case "Settings":
         return <SettingsFragement/>;
       default:
-        break;
+        return <HomeFragement/>;
     }
+  }
+
+  const LogOut = ()=> {
+    fire.auth().signOut();
   }
 
   return (
@@ -223,11 +227,11 @@ export default function MiniDrawer() {
         </List>
         <Divider/>
         <NavItem 
-            href="/login"
-            title="Settings"
+            href="/"
+            title="Logout"
             icon={PowerSettingsNew}
             style={{marginLeft: "6px"}}
-            onClick={e=>setfragment("Settings")}>
+            onClick={e=>LogOut()}>
           </NavItem>
         <Divider/>
       </Drawer>
@@ -238,3 +242,5 @@ export default function MiniDrawer() {
     </div>
   );
 }
+
+export default MiniDrawer

@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import red from '@material-ui/core/colors/red';
@@ -22,6 +24,7 @@ ReactDOM.render(
       <App />
     </ThemeProvider>
     </BrowserRouter>
+    <ReactNotification />
   </React.StrictMode>,
   document.getElementById('root')
 );

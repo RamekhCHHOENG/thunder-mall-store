@@ -1,22 +1,24 @@
 import './App.css';
-// import Dashboard from './components/Dashboard'
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Login from './view/login'
 import SignUp from './view/signup'
-import NotFound from './view/NotFound/index'
 import Dashboard from './components/Dashboard'
+import React from 'react'
+import { AuthProvider } from './Auth'
+import PrivateRoute from "./PrivateRoute"
 
-function App() {
+const App = () => {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={SignUp} />
-        <Route exact path="*" component={NotFound} />
-      </Switch>
-    </BrowserRouter>
+    <AuthProvider>
+      <Router>
+        <div>
+          <PrivateRoute exact path="/" component={Dashboard} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+        </div>
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
