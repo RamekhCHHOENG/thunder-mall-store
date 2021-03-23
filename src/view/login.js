@@ -7,26 +7,32 @@ import fire from '../fire'
 import { AuthContext } from "../Auth"
 
 const Login = ({ history }) => {
+  const { currentUser, userData }= useContext(AuthContext);
+  console.log(useContext(AuthContext), 'here');
   const handleLogin = useCallback(
     async event => {
       event.preventDefault();
       const { email, password } = event.target.elements;
-      alert(email.value, password.value, 'here is email password')
       try {
         await fire
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
-          alert("your are sign in")
-        history.push("/");
+          
+          if(!userData.emailVerified) {
+            alert('we have send u the verified email')
+            var user = fire.auth().currentUser
+            user.sendEmailVerification()
+            history.push('/emailverify')
+          } else {
+            history.push("/");
+          }
       } catch (error) {
         alert(error);
       }
     },
     [history]
   );
-
-  const { currentUser } = useContext(AuthContext);
-
+  
   if (currentUser) {
     return <Redirect to="/" />;
   }
@@ -71,7 +77,7 @@ const Login = ({ history }) => {
                 >Sign In
               </Button>
             <p className="forgot-password text-right">
-                Forgot <a href="#">password?</a>
+                Forgot <a href="forgot-password">password?</a>
             </p>
         </form>
         <Link to="/signup">

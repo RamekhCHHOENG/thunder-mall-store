@@ -104,15 +104,22 @@ const MiniDrawer = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const [fragment, setfragment] = useState("HOME")
-
+  // alert(window.location.pathname);
+  const [fragment, setfragment] = useState(window.location.pathname)
+  const lastRoute = window.location.pathname
+  console.log(lastRoute, '======here is last route =====')
+  // if (lastRoute == '/categeries') {
+  //   console.log('categoeries last route bro')
+  //   setfragment('/categories');
+  // }
   const loadPageContent = () => {
     switch (fragment) {
       case "Home":
         return <HomeFragement/>;
-      case "Categorys":
+      case "/categories":
         return <CategoryFragement/>;
+        case "SubCategory":
+          return <CategoryFragement/>;
       case "Payments":
         return <PaymentFragment/>;
       case "Products":
@@ -185,12 +192,12 @@ const MiniDrawer = () => {
             onClick={e=>setfragment("Home")}>
           </NavItem>
           <NavItem 
-            href="/"
+            href="/categories"
             key={2}
             title="Category"
             icon={Category}
             style={{marginLeft: "6px"}}
-            onClick={e=>setfragment("Categorys")}>
+            onClick={e=>setfragment("/categories")}>
           </NavItem>
           <NavItem 
             href="/"
@@ -237,7 +244,9 @@ const MiniDrawer = () => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+          <div>
             {loadPageContent()}
+          </div>
       </main>
     </div>
   );

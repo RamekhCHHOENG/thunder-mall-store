@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -11,6 +11,7 @@ import {
   TextField,
   makeStyles
 } from '@material-ui/core';
+import fire from '../../fire'
 
 const useStyles = makeStyles(({
   root: {}
@@ -29,11 +30,33 @@ const Password = ({ className, ...rest }) => {
       [event.target.name]: event.target.value
     });
   };
+  
+  const handleUpdatePassword = useCallback(
+    async event => {
+      event.preventDefault();
+      console.log(values.confirm, 'here is confirm password')
+      try {
+        var user = fire.auth().currentUser;
+        var credential = fire.auth.Aut.credential('gskqpuoqfjrneagfsk@wqcefp.com', '121212')
+
+        await user.reauthenticateWithCredential(credential)
+        .then(() => {
+          user.updatePassword(values.confirm)
+            .then(() => {
+              alert('password update success')
+            })
+        })
+    } catch (error) {
+      alert(error);
+    }
+    }
+  );
 
   return (
     <form
       className={clsx(classes.root, className)}
       {...rest}
+      onSubmit={handleUpdatePassword}
     >
       <Card>
         <CardHeader
@@ -72,6 +95,7 @@ const Password = ({ className, ...rest }) => {
           <Button
             color="primary"
             variant="contained"
+            type="submit"
           >
             Update
           </Button>
@@ -81,8 +105,5 @@ const Password = ({ className, ...rest }) => {
   );
 };
 
-Password.propTypes = {
-  className: PropTypes.string
-};
 
 export default Password;
