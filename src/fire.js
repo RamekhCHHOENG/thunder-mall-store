@@ -5,14 +5,14 @@ import 'firebase/storage'
 
 
 var firebaseConfig = {
-  apiKey: "AIzaSyC2EDX2JZRlrwYAWYIrUsN0QUIKI3528M4",
-  authDomain: "thunder-mall-store.firebaseapp.com",
-  projectId: "thunder-mall-store",
-  storageBucket: "thunder-mall-store.appspot.com",
-  messagingSenderId: "668878051173",
-  appId: "1:668878051173:web:9712f1507dffbfcfa3b38c",
-  measurementId: "G-EEB4ZDJ6HM"
-}; 
+  apiKey: "AIzaSyBjxeBwvRx4N0MzhG9xl4jHoQ02sK0kt-M",
+  authDomain: "thunder-mall-13cf5.firebaseapp.com",
+  projectId: "thunder-mall-13cf5",
+  storageBucket: "thunder-mall-13cf5.appspot.com",
+  messagingSenderId: "423015951227",
+  appId: "1:423015951227:web:8d581cf32daf15ba062bde",
+  measurementId: "G-6YJLCM7SW3"
+};
 
 const fire = firebase.initializeApp(firebaseConfig);
 export default fire

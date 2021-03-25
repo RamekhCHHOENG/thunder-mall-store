@@ -20,6 +20,7 @@ const App = () => {
           <Route exact path="/emailverify" component={ComfirmEmail} />  
           <Route exact path="/forgot-password" component={ForgotPassword} />
           <Route exact path="/categories" component={Dashboard} />
+          <Route exact path="/products" component={Dashboard} />
         </div>
       </Router>
     </AuthProvider>

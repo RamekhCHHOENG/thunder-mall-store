@@ -19,9 +19,9 @@ import { Home, CreditCard, Category, Settings, ShoppingCart, PowerSettingsNew, S
 import { Link } from 'react-router-dom' 
 import NavItem from './NavItem'
 import HomeFragement from '../view/Home'
-import CategoryFragement from '../view/Categery'
+import MainCategory from '../view/Category/index'
 import PaymentFragment from '../view/Payment/PaymentMethod'
-import ProductsFragment from '../view/Products'
+import ProductsFragment from '../view/Products/index'
 import OrdersFragment from '../view/Orders'
 import SettingsFragement from '../view/Settings/index'
 import fire from '../fire'
@@ -117,12 +117,10 @@ const MiniDrawer = () => {
       case "Home":
         return <HomeFragement/>;
       case "/categories":
-        return <CategoryFragement/>;
-        case "SubCategory":
-          return <CategoryFragement/>;
+        return <MainCategory/>;
       case "Payments":
         return <PaymentFragment/>;
-      case "Products":
+      case "/products":
         return <ProductsFragment/>;
       case "Orders":
         return <OrdersFragment/>;
@@ -200,12 +198,12 @@ const MiniDrawer = () => {
             onClick={e=>setfragment("/categories")}>
           </NavItem>
           <NavItem 
-            href="/"
+            href="/products"
             key={3}
             title="Products"
             icon={Store}
             style={{marginLeft: "6px"}}
-            onClick={e=>setfragment("Products")}>
+            onClick={e=>setfragment("/products")}>
           </NavItem>
           <NavItem 
             href="/"

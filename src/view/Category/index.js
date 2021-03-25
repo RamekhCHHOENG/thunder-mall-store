@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import fire from '../fire';
+import fire from '../../fire';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -25,8 +25,9 @@ import {
   Avatar
 } from '@material-ui/core';
 
-import { Create, Delete, ViewList, Add } from '@material-ui/icons';
+import { Create, Delete, Image, Add } from '@material-ui/icons';
 import { store } from 'react-notifications-component';
+import { Link } from 'react-router-dom'
 
 const columns = [
   { id: 'code', label: 'Code' },
@@ -34,10 +35,6 @@ const columns = [
   { id: 'picture', label: 'Picture' },
   { id: 'action', label: 'Action' }
 ];
-
-function createData(code, name, picture) {
-  return { code, name, picture };
-}
 
 const rows = [];
 
@@ -53,31 +50,46 @@ const useStyles = makeStyles({
 export default function Category(category) {
   const [categories, setCategories] = useState([])
   const [open, setOpen] = useState(false);
-  const [categoryInfo, setCategoryInfo] = useState();
+  const [categoryInfo, setCategoryInfo] = useState({code: '', name: '', picture: ''});
   const [toggleCreateDialog, setToggleCreateDialog] = useState(false);
   const [fileUrl, setFileUrl] = useState(null);
   const [loading, setLoading] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+  const [cateCode, setCateCode] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [isImageChange, setIsImageChange] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const [name, setName] = useState(null);
+  const [code, setCode] = useState(null);
+  const [picture, setPicture] = useState(null);
 
   useEffect(() => {
     const fetchCateogries = async () => {
       const db = fire.firestore();
-      const data = await db.collection('categories').get();
+      const data = await db
+      .collection('categories')
+      .orderBy('code')
+      .limit(rowsPerPage)
+      .startAt(page)
+      .get();  
       const categories = data.docs.map(doc => ({
         ...doc.data(),
         id: doc.id
       }));
       setCategories(categories);
+      // console.log(categories, 'here is loading data');
     } 
     fetchCateogries();
-  }, [category])
-
+  }, [category,categories])
 
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    alert(newPage, 'start at page')
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -85,15 +97,6 @@ export default function Category(category) {
     setPage(0);
   };
 
-  const loadSubCategory = async (cateSelected) => {
-    const db = fire.firestore();
-    const data = await db.collection('categories').doc(cateSelected.id).collection('name').get();
-    const categories = data.docs.map(doc => ({
-      ...doc.data(),
-      id: doc.id
-    }));
-
-  }
 
   //delete function
   const handleDeleteDialog = (id) => {
@@ -119,8 +122,19 @@ export default function Category(category) {
   }
 
   //Create function 
-  const handleCreateDialog = (id) => {
+  const handleCreateDialog = () => {
+    setIsEdit(false)
     setToggleCreateDialog(true);
+    setCode('')
+    setName('')
+  };
+  const handleEditDialog = (cate) => {
+    setIsEdit(true)
+    setToggleCreateDialog(true);
+    setCode(cate.code)
+    setName(cate.name)
+    setCateCode(cate.code);
+    setPicture(cate.picture)
   };
 
   const closeCreateDialog = () => {
@@ -128,28 +142,51 @@ export default function Category(category) {
   };
   const handleCreateNewCategory = async (e) => {
     e.preventDefault();
-    const code = e.target.code.value;
-    const name = e.target.name.value;
 
     try {
       const db = fire.firestore();
-      await db.collection("categories").doc(code).set({
-        code: code,
-        name: name,
-        picture: fileUrl
-      })
+      const storageRef = fire.storage().ref();
+      const fileRef = storageRef.child(imageFile.name);
+      
+      if (!isEdit) {
+        await fileRef.put(imageFile)
+        await fileRef.getDownloadURL().then((url) => {
+          db.collection("categories").doc(code).set({
+            code: code,
+            name: name,
+            picture: url
+          })
+        })
+      } else {
+        if(isImageChange) {
+          await fileRef.put(imageFile);
+        }
+        await fileRef.getDownloadURL().then((url) => {
+          db.collection("categories").doc(cateCode).update({
+            code: code,
+            name: name,
+            picture: isImageChange ? url : picture  
+          })
+        })
+      }
       setToggleCreateDialog(false);
+
     } catch (err) {
-      alert(err)
+      console.log(err, 'cannot create or update')
     }
   }
 
-  const onImageChange = async (e) => {
-    const file = e.target.files[0];
-    const storageRef = fire.storage().ref();
-    const fileRef = storageRef.child(file.name);
-    await fileRef.put(file)
-    setFileUrl(await fileRef.getDownloadURL());
+  const onImageChange = (e) => {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    var url = reader.readAsDataURL(file);
+    setImageFile(file);
+
+    reader.onloadend = function (e) {
+      setPreviewImage([reader.result]);
+    };
+  console.log(url)
+    setIsImageChange(true);
   }
 
 
@@ -165,9 +202,6 @@ export default function Category(category) {
             options={categories}
             getOptionLabel={(option) => option.name}
             style={{ width: 350, padding: 16 }}
-            onChange={(event, item) => {
-              loadSubCategory(item)
-            }}
             renderInput={(params) => <TextField {...params} label="Main Categegory" variant="outlined" size="small" />}
           />
         </Grid>
@@ -202,14 +236,11 @@ export default function Category(category) {
                     <img alt="icons" src={cate.picture} style={{ width: '30px', height: '30px' }} />
                   </TableCell>
                   <TableCell style={{ margin: 0, padding: 0, width: "200px" }}>
-                    <IconButton color="primary">
+                    <IconButton color="primary" onClick={e=>handleEditDialog(cate)}>
                       <Create />
                     </IconButton>
                     <IconButton color="primary" onClick={e => handleDeleteDialog(cate)}>
                       <Delete />
-                    </IconButton>
-                    <IconButton color="primary">
-                      <ViewList />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -238,7 +269,7 @@ export default function Category(category) {
         <DialogTitle id="alert-dialog-title">{"Confirmation"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this category?
+          Are you sure you want to delete this category {categoryInfo.code}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -259,9 +290,9 @@ export default function Category(category) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Create Main Category"}</DialogTitle>
+        <DialogTitle style={{paddingBottom: 0}}>{"Create Category"}</DialogTitle>
         <form onSubmit={handleCreateNewCategory}>
-          <DialogContent>
+          <DialogContent style={{paddingTop: 0}}>
             <TextField
               label="code"
               id="outlined-size-small"
@@ -270,7 +301,9 @@ export default function Category(category) {
               fullWidth
               size="small"
               name="code"
-              type="text"
+              type="text" 
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
             />
             <TextField
               label="name"
@@ -281,6 +314,8 @@ export default function Category(category) {
               size="small"
               name="name"
               type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <input
               style={{ display: "none" }}
@@ -289,10 +324,11 @@ export default function Category(category) {
               onChange={onImageChange}
             />
             <label htmlFor="contained-button-file">
-              <Button variant="contained" color="primary" component="span">
-                Upload
-                  </Button>
-            </label>
+              <Button variant="contained" color="primary" component="span" style={{marginTop: 10}}>
+                Upload Image
+              </Button>
+            </label> <br/>
+            <img alt="IMAGE" style={{width: 100, height:100, marginLeft: 20}} src={isImageChange ? previewImage : picture}/>
           </DialogContent>
           <DialogActions>
             <Button onClick={closeCreateDialog} color="primary">
