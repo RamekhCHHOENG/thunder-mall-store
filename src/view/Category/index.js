@@ -30,9 +30,9 @@ import { store } from 'react-notifications-component';
 import { Link } from 'react-router-dom'
 
 const columns = [
-  { id: 'code', label: 'Code' },
-  { id: 'name', label: 'Name' },
-  { id: 'picture', label: 'Picture' },
+  { id: 'code', label: 'Category Code' },
+  { id: 'name', label: 'Category Name' },
+  { id: 'picture', label: 'Picture(Cover)' },
   { id: 'action', label: 'Action' }
 ];
 
@@ -53,19 +53,23 @@ export default function Category(category) {
   const [categoryInfo, setCategoryInfo] = useState({code: '', name: '', picture: ''});
   const [toggleCreateDialog, setToggleCreateDialog] = useState(false);
   const [fileUrl, setFileUrl] = useState(null);
+  const [loadingData, setLoadingData] = useState(false);
   const [loading, setLoading] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [cateCode, setCateCode] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [isImageChange, setIsImageChange] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
+  const [dialogTitle, setDialogTitle] = useState(null);
+  const [buttonTitle, setButtonTitle] = useState(null);
 
-  const [name, setName] = useState(null);
-  const [code, setCode] = useState(null);
-  const [picture, setPicture] = useState(null);
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
+  const [picture, setPicture] = useState('');
 
   useEffect(() => {
     const fetchCateogries = async () => {
+      setLoadingData(true)
       const db = fire.firestore();
       const data = await db
       .collection('categories')
@@ -78,6 +82,7 @@ export default function Category(category) {
         id: doc.id
       }));
       setCategories(categories);
+      setLoadingData(false)
       // console.log(categories, 'here is loading data');
     } 
     fetchCateogries();
@@ -120,20 +125,31 @@ export default function Category(category) {
       console.log(err)
     }
   }
-
+  const setupDialogTitle = () => {
+    if(!isEdit) {
+      setDialogTitle('Create New Productl');
+      setButtonTitle('Create');
+    } else {
+      setDialogTitle('Update Product');
+      setButtonTitle('Update');
+    }
+  }
   //Create function 
   const handleCreateDialog = () => {
-    setIsEdit(false)
-    setToggleCreateDialog(true);
+    setupDialogTitle()
     setCode('')
     setName('')
+    setPicture('')
+    setIsEdit(false)
+    setToggleCreateDialog(true);
   };
   const handleEditDialog = (cate) => {
+    setupDialogTitle()
     setIsEdit(true)
     setToggleCreateDialog(true);
     setCode(cate.code)
     setName(cate.name)
-    setCateCode(cate.code);
+    setCateCode(cate.id);
     setPicture(cate.picture)
   };
 
@@ -142,37 +158,52 @@ export default function Category(category) {
   };
   const handleCreateNewCategory = async (e) => {
     e.preventDefault();
-
     try {
-      const db = fire.firestore();
-      const storageRef = fire.storage().ref();
-      const fileRef = storageRef.child(imageFile.name);
-      
+      setLoading(true);
       if (!isEdit) {
-        await fileRef.put(imageFile)
-        await fileRef.getDownloadURL().then((url) => {
-          db.collection("categories").doc(code).set({
-            code: code,
-            name: name,
-            picture: url
-          })
-        })
+        requestCreateCategory()
       } else {
-        if(isImageChange) {
-          await fileRef.put(imageFile);
-        }
-        await fileRef.getDownloadURL().then((url) => {
-          db.collection("categories").doc(cateCode).update({
-            code: code,
-            name: name,
-            picture: isImageChange ? url : picture  
-          })
-        })
+        requestUpdateCategory()
       }
+      setLoading(false);
       setToggleCreateDialog(false);
 
     } catch (err) {
       console.log(err, 'cannot create or update')
+    }
+  }
+  const requestCreateCategory = async () => {
+    const db = fire.firestore();
+    const storageRef = fire.storage().ref();
+    const fileRef = storageRef.child(imageFile.name);
+    await fileRef.put(imageFile)
+    await fileRef.getDownloadURL().then((url) => {
+      db.collection("categories").doc(code).set({
+        code: code,
+        name: name,
+        picture: url
+      })
+    })
+  }
+  const requestUpdateCategory = async () => {
+    const db = fire.firestore();
+    const storageRef = fire.storage().ref();
+    if(isImageChange) {
+      const fileRef = storageRef.child(imageFile.name);
+      await fileRef.put(imageFile);
+      await fileRef.getDownloadURL().then((url) => {
+        db.collection("categories").doc(cateCode).update({
+          code: code,
+          name: name,
+          picture: url
+        })
+      })
+    } else {
+      db.collection("categories").doc(cateCode).update({
+        code: code,
+        name: name,
+        picture: picture
+      })
     }
   }
 
@@ -211,7 +242,7 @@ export default function Category(category) {
           </Button>
         </Grid>
       </Grid>
-      <TableContainer className={classes.container} style={{ maxHeight: "70%"}}>
+      <TableContainer className={classes.container} style={{ maxHeight: "70%"}} loading={loading}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -252,7 +283,7 @@ export default function Category(category) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={categories.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
@@ -290,7 +321,7 @@ export default function Category(category) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle style={{paddingBottom: 0}}>{"Create Category"}</DialogTitle>
+        <DialogTitle style={{paddingBottom: 0}}>{dialogTitle}</DialogTitle>
         <form onSubmit={handleCreateNewCategory}>
           <DialogContent style={{paddingTop: 0}}>
             <TextField
@@ -334,8 +365,8 @@ export default function Category(category) {
             <Button onClick={closeCreateDialog} color="primary">
               Cancel
             </Button>
-            <Button type="submit" color="primary" variant="contained" autoFocus>
-              Create
+            <Button type="submit" color="primary" variant="contained" autoFocus loading={loading}>
+              {buttonTitle}
             </Button>
           </DialogActions>
         </form>

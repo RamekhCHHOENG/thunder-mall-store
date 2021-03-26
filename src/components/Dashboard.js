@@ -25,6 +25,7 @@ import ProductsFragment from '../view/Products/index'
 import OrdersFragment from '../view/Orders'
 import SettingsFragement from '../view/Settings/index'
 import fire from '../fire'
+import { Avatar, Grid} from '@material-ui/core';
 
 const drawerWidth = 180;
 
@@ -104,14 +105,9 @@ const MiniDrawer = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  // alert(window.location.pathname);
+
   const [fragment, setfragment] = useState(window.location.pathname)
-  const lastRoute = window.location.pathname
-  console.log(lastRoute, '======here is last route =====')
-  // if (lastRoute == '/categeries') {
-  //   console.log('categoeries last route bro')
-  //   setfragment('/categories');
-  // }
+
   const loadPageContent = () => {
     switch (fragment) {
       case "Home":
@@ -145,20 +141,28 @@ const MiniDrawer = () => {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Product Management
-          </Typography>
+ 
+          <Grid container justify="center" alignItems="center">
+            <Grid item xs={6}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, {
+                  [classes.hide]: open,
+                })}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap>
+                Product Management
+              </Typography>
+            </Grid>
+            <Grid item xs={6} align="right" justify="middle">
+              <Avatar alt="profile" />
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
