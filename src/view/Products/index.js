@@ -28,14 +28,16 @@ import {
 import { Create, Delete, Search, Add } from '@material-ui/icons';
 import { store } from 'react-notifications-component';
 import { Link } from 'react-router-dom'
+import NumberFormat from 'react-number-format';
 
 const columns = [
   { id: 'code', label: 'Product Code' },
   { id: 'name', label: 'Product Name' },
-  { id: 'quantity', label: 'Quantity(QTY)' },
+  { id: 'quantity', label: 'Quantity(QTY)'},
+  { id: 'price', label: 'Price(US Dollar)'},
   { id: 'category', label: 'Category(Type)' },
-  { id: 'price', label: 'Price(US Dollar)' },
-  { id: 'totalSell', label: 'Total Sell(P-QTY)' },
+  { id: 'totalSell', label: 'Total Sell(P-QTY)'},
+  { id: 'status', label: 'Status(Active/Inactive)' },
   { id: 'picture', label: 'Picture(Cover)' },
   { id: 'action', label: 'Action' }
 ];
@@ -52,7 +54,7 @@ const useStyles = makeStyles({
 });
 const statusItems = ['Active', 'Inactive']
 export default function Category(productCategory) {
-  const [value, setValue] = useState();
+  const [statusInput, setStatusInput] = useState();
   const [inputValue, setInputValue] = useState('');
 
   const [products, setProducts] = useState([])
@@ -263,9 +265,9 @@ export default function Category(productCategory) {
           model: model,
           status: status,
           createdBy: 'Admin',
-          createdAt: db.Timestamp,
+          createdAt: '',
           updatedBy: '',
-          updatedAt: db.Timestamp,
+          updatedAt: '',
           picture: url
         })
       })
@@ -283,9 +285,9 @@ export default function Category(productCategory) {
         model: model,
         status: status,
         createdBy: 'Admin',
-        createdAt: db.Timestamp,
+        createdAt: '',
         updatedBy: '',
-        updatedAt: db.Timestamp,
+        updatedAt: '',
         picture: picture  
       })
     }
@@ -323,7 +325,7 @@ export default function Category(productCategory) {
             renderInput={(params) => <TextField {...params} label="Categegory" variant="outlined" size="small" />}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
             <TextField
               label="Search..."
               id="outlined-size-small"
@@ -336,7 +338,7 @@ export default function Category(productCategory) {
               style={{marginLeft: 16}}
             />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={2}>
           <Button color="primary" variant="contained" style={{marginTop: 18, marginLeft: 32}}>
             <Search />
           </Button>
@@ -370,10 +372,19 @@ export default function Category(productCategory) {
                 <TableRow hover tabIndex={-1} key={cate.id} style={{ height: '10px' }}>
                   <TableCell>{cate.code}</TableCell>
                   <TableCell>{cate.name}</TableCell>
-                  <TableCell>{cate.category}</TableCell>
                   <TableCell>{cate.quantity}</TableCell>
-                  <TableCell>{cate.price}</TableCell>
+                  <TableCell>
+                    <NumberFormat
+                      value={cate.price}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      displayType={'text'}
+                      thousandSeparator={true} prefix={'$'}
+                    />
+                  </TableCell>
+                  <TableCell>{cate.category}</TableCell>
                   <TableCell>{cate.totalSell || 0}</TableCell>
+                  <TableCell>{cate.status}</TableCell>
                   <TableCell style={{ width: '200px' }}>
                     <img alt="icons" src={cate.picture} style={{ width: '30px', height: '30px' }} />
                   </TableCell>
@@ -473,18 +484,6 @@ export default function Category(productCategory) {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                {/* <TextField
-                  label="Category"
-                  id="outlined-size-small"
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  size="small"
-                  name="cateogry"
-                  type="text"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                /> */}
               <Autocomplete
                 value={category}
                 onChange={(event, newValue) => {
@@ -498,6 +497,18 @@ export default function Category(productCategory) {
                 style={{ marginTop: 16 }}
                 renderInput={(params) => <TextField {...params} label="Category" variant="outlined" size="small"/>}
               />
+            <input
+              style={{ display: "none" }}
+              id="contained-button-file"
+              type="file"
+              onChange={onImageChange}
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="primary" component="span" style={{marginTop: 10}}>
+                Upload Image
+              </Button>
+            </label> <br/>
+            <img alt="IMAGE" style={{width: 100, height:100, marginLeft: 20}} src={isImageChange ? previewImage : picture}/>
               </Grid>
               <Grid item xs={6}>
 
@@ -509,7 +520,7 @@ export default function Category(productCategory) {
               fullWidth
               size="small"
               name="quantity"
-              type="text"
+              type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
             />
@@ -521,7 +532,7 @@ export default function Category(productCategory) {
               fullWidth
               size="small"
               name="discouont"
-              type="text"
+              type="number"
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
             />
@@ -532,8 +543,8 @@ export default function Category(productCategory) {
               margin="normal"
               fullWidth
               size="small"
-              name="price"
-              type="text"
+              name="number"
+              type="number"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
@@ -561,33 +572,21 @@ export default function Category(productCategory) {
               value={model}
               onChange={(e) => setModel(e.target.value)}
             />
-            <TextField
-              label="Status"
-              id="outlined-size-small"
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              size="small"
-              name="status"
-              type="text"
+            <Autocomplete
               value={status}
-              onChange={(e) => setStatus(e.target.value)}
+              onChange={(event, newValue) => {
+                setStatus(newValue);
+              }}
+              inputValue={statusInput}
+              onInputChange={(event, newInputValue) => {
+                setStatusInput(newInputValue);
+              }}
+              options={statusItems}
+              style={{ marginTop: 16 }}
+              renderInput={(params) => <TextField {...params} label="Status" variant="outlined" size="small"/>}
             />
               </Grid>
             </Grid>
-           
-            <input
-              style={{ display: "none" }}
-              id="contained-button-file"
-              type="file"
-              onChange={onImageChange}
-            />
-            <label htmlFor="contained-button-file">
-              <Button variant="contained" color="primary" component="span" style={{marginTop: 10}}>
-                Upload Image
-              </Button>
-            </label> <br/>
-            <img alt="IMAGE" style={{width: 100, height:100, marginLeft: 20}} src={isImageChange ? previewImage : picture}/>
           </DialogContent>
           <DialogActions> 
             <Button onClick={closeCreateDialog} color="primary">

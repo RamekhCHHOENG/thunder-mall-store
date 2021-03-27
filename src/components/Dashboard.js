@@ -22,7 +22,7 @@ import HomeFragement from '../view/Home'
 import MainCategory from '../view/Category/index'
 import PaymentFragment from '../view/Payment/PaymentMethod'
 import ProductsFragment from '../view/Products/index'
-import OrdersFragment from '../view/Orders'
+import OrdersFragment from '../view/Orders/index'
 import SettingsFragement from '../view/Settings/index'
 import fire from '../fire'
 import { Avatar, Grid} from '@material-ui/core';
@@ -114,13 +114,11 @@ const MiniDrawer = () => {
         return <HomeFragement/>;
       case "/categories":
         return <MainCategory/>;
-      case "Payments":
-        return <PaymentFragment/>;
       case "/products":
         return <ProductsFragment/>;
-      case "Orders":
+      case "/orders":
         return <OrdersFragment/>;
-      case "Settings":
+      case "/settings":
         return <SettingsFragement/>;
       default:
         return <HomeFragement/>;
@@ -210,28 +208,20 @@ const MiniDrawer = () => {
             onClick={e=>setfragment("/products")}>
           </NavItem>
           <NavItem 
-            href="/"
+            href="/orders"
             key={4}
             title="Orders"
             icon={ShoppingCart}
             style={{marginLeft: "6px"}}
-            onClick={e=>setfragment("Orders")}>
+            onClick={e=>setfragment("/orders")}>
           </NavItem>
           <NavItem 
-            href="/"
-            key={5}
-            title="Payments"
-            icon={CreditCard}
-            style={{marginLeft: "6px"}}
-            onClick={e=>setfragment("Payments")}>
-          </NavItem>
-          <NavItem 
-            href="/"
+            href="/settings"
             key={6}
             title="Settings"
             icon={Settings}
             style={{marginLeft: "6px"}}
-            onClick={e=>setfragment("Settings")}>
+            onClick={e=>setfragment("/settings")}>
           </NavItem>
         </List>
         <Divider/>
@@ -239,7 +229,7 @@ const MiniDrawer = () => {
             href="/"
             title="Logout"
             icon={PowerSettingsNew}
-            style={{marginLeft: "6px"}}
+            style={{marginLeft: "6px", color: "white"}}
             onClick={e=>LogOut()}>
           </NavItem>
         <Divider/>

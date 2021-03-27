@@ -25,7 +25,7 @@ import {
   Avatar
 } from '@material-ui/core';
 
-import { Create, Delete, Image, Add } from '@material-ui/icons';
+import { Create, Delete, Search, Add } from '@material-ui/icons';
 import { store } from 'react-notifications-component';
 import { Link } from 'react-router-dom'
 
@@ -226,17 +226,30 @@ export default function Category(category) {
       <Typography variant="h4">
         Product Category
       </Typography>
-      <Grid container justify="center" alignItems="center">
+      <Grid container justify="center">
+      <Grid item xs={6}>
+        <Grid container>
         <Grid item xs={6}>
-          <Autocomplete
-            id="combo-box"
-            options={categories}
-            getOptionLabel={(option) => option.name}
-            style={{ width: 350, padding: 16 }}
-            renderInput={(params) => <TextField {...params} label="Main Categegory" variant="outlined" size="small" />}
-          />
+            <TextField
+              label="Search..."
+              id="outlined-size-small"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              size="small"
+              name="status"
+              type="text"
+              style={{marginLeft: 16}}
+            />
         </Grid>
-        <Grid item xs={6} align="right" justify="middle">
+        <Grid item xs={4}>
+          <Button color="primary" variant="contained" style={{marginTop: 18, marginLeft: 32}}>
+            <Search />
+          </Button>
+        </Grid>
+            </Grid>
+        </Grid>
+        <Grid item xs={6} align="right">
           <Button variant="contained" color="primary" onClick={handleCreateDialog}>
             <Add /> Create
           </Button>
