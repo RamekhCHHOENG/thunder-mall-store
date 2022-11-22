@@ -7,7 +7,7 @@ import fire from '../fire'
 import { AuthContext } from "../Auth"
 
 const Login = ({ history }) => {
-  const { currentUser, userData }= useContext(AuthContext);
+  const { currentUser }= useContext(AuthContext);
   console.log(useContext(AuthContext), 'here');
   const handleLogin = useCallback(
     async event => {
@@ -18,14 +18,15 @@ const Login = ({ history }) => {
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
           
-          if(!userData.emailVerified) {
-            alert('we have send u the verified email')
-            var user = fire.auth().currentUser
-            user.sendEmailVerification()
-            history.push('/emailverify')
-          } else {
-            history.push("/");
-          }
+          // if(!userData.emailVerified) {
+          //   alert('we have send u the verified email')
+          //   var user = fire.auth().currentUser
+          //   user.sendEmailVerification()
+          //   history.push('/emailverify')
+          // } else {
+          //   history.push("/");
+          // }
+          history.push("/");
       } catch (error) {
         alert(error);
       }

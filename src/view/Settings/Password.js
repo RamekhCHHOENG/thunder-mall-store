@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import {
   Box,
@@ -11,7 +10,7 @@ import {
   TextField,
   makeStyles
 } from '@material-ui/core';
-import fire from '../../fire'
+// import fire from '../../fire'
 
 const useStyles = makeStyles(({
   root: {}
@@ -31,32 +30,32 @@ const Password = ({ className, ...rest }) => {
     });
   };
   
-  const handleUpdatePassword = useCallback(
-    async event => {
-      event.preventDefault();
-      console.log(values.confirm, 'here is confirm password')
-      try {
-        var user = fire.auth().currentUser;
-        var credential = fire.auth.Aut.credential('gskqpuoqfjrneagfsk@wqcefp.com', '121212')
+  // const handleUpdatePassword = useCallback(
+  //   async event => {
+  //     event.preventDefault();
+  //     console.log(values.confirm, 'here is confirm password')
+  //     try {
+  //       var user = fire.auth().currentUser;
+  //       var credential = fire.auth.Aut.credential('gskqpuoqfjrneagfsk@wqcefp.com', '121212')
 
-        await user.reauthenticateWithCredential(credential)
-        .then(() => {
-          user.updatePassword(values.confirm)
-            .then(() => {
-              alert('password update success')
-            })
-        })
-    } catch (error) {
-      alert(error);
-    }
-    }
-  );
+  //       await user.reauthenticateWithCredential(credential)
+  //       .then(() => {
+  //         user.updatePassword(values.confirm)
+  //           .then(() => {
+  //             alert('password update success')
+  //           })
+  //       })
+  //     } catch (error) {
+  //       alert(error);
+  //     }
+  //   }
+  // );
 
   return (
     <form
       className={clsx(classes.root, className)}
       {...rest}
-      onSubmit={handleUpdatePassword}
+      onSubmit={() => {}}
     >
       <Card>
         <CardHeader

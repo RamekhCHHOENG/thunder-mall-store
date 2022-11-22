@@ -22,12 +22,11 @@ import {
   DialogContent,
   DialogActions,
   Dialog,
-  Avatar
 } from '@material-ui/core';
 
 import { Create, Delete, Search, Add } from '@material-ui/icons';
-import { store } from 'react-notifications-component';
-import { Link } from 'react-router-dom'
+// import { store } from 'react-notifications-component';
+// import { Link } from 'react-router-dom'
 import NumberFormat from 'react-number-format';
 
 const columns = [
@@ -42,7 +41,7 @@ const columns = [
   { id: 'action', label: 'Action' }
 ];
 
-const rows = [];
+// const rows = [];
 
 const useStyles = makeStyles({
   root: {
@@ -58,12 +57,12 @@ export default function Category(productCategory) {
   const [inputValue, setInputValue] = useState('');
 
   const [products, setProducts] = useState([])
-  const [categories, setCategories] = useState([])
+  const [categories] = useState([])
   const [open, setOpen] = useState(false);
   const [categoryInfo, setCategoryInfo] = useState({code: '', name: '', picture: ''});
   const [toggleCreateDialog, setToggleCreateDialog] = useState(false);
-  const [fileUrl, setFileUrl] = useState(null);
-  const [loading, setLoading] = useState(null);
+  // const [fileUrl, setFileUrl] = useState(null);
+  // const [loading, setLoading] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [cateCode, setCateCode] = useState(null);
   const [imageFile, setImageFile] = useState(null);
@@ -78,7 +77,7 @@ export default function Category(productCategory) {
   const [category, setCategory] = useState('');
   const [quantity, setQuantity] = useState('');
   const [discount, setDiscount] = useState('');
-  const [totalSell, setTotalSell] = useState('');
+  const [totalSell] = useState('');
   const [price, setPrice] = useState('');
   const [model, setModel] = useState('');
   const [branch, setBranch] = useState('');
@@ -106,7 +105,7 @@ export default function Category(productCategory) {
   
   const fetchCateogries = async () => {
     const db = fire.firestore();
-    const data = await db
+    await db
     .collection("categories")
     .get()
     .then(querySnapshot => {
@@ -508,7 +507,7 @@ export default function Category(productCategory) {
                 Upload Image
               </Button>
             </label> <br/>
-            <img alt="IMAGE" style={{width: 100, height:100, marginLeft: 20}} src={isImageChange ? previewImage : picture}/>
+            <img alt="#" style={{width: 100, height:100, marginLeft: 20}} src={isImageChange ? previewImage : picture}/>
               </Grid>
               <Grid item xs={6}>
 

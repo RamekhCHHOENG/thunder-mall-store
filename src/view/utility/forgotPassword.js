@@ -1,12 +1,12 @@
 
-import React, { useCallback, useContext } from "react";
-import { withRouter, Redirect } from "react-router";
+import React, { useCallback } from "react";
+import { withRouter } from "react-router";
 import { Container, Box, Button, TextField} from '@material-ui/core'
 import fire from '../../fire'
 import { Link } from 'react-router-dom'
 // import { AuthContext } from "../Auth"
 
-const Login = ({ history }) => {
+const Login = (history) => {
   // const { currentUser, userData } = useContext(AuthContext);
   const handleForgotPassword = useCallback(
     async event => {
@@ -20,7 +20,7 @@ const Login = ({ history }) => {
         alert(error);
       }
     },
-    [history]
+    []
   );
   
   // if (currentUser) {

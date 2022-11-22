@@ -11,7 +11,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
 import TextField from '@material-ui/core/TextField';
-import { Autocomplete } from '@material-ui/lab';
+// import { Autocomplete } from '@material-ui/lab';
 import {
   Typography,
   IconButton,
@@ -21,13 +21,12 @@ import {
   DialogContentText,
   DialogContent,
   DialogActions,
-  Dialog,
-  Avatar
+  Dialog
 } from '@material-ui/core';
 
 import { Create, Delete, Search, Add } from '@material-ui/icons';
-import { store } from 'react-notifications-component';
-import { Link } from 'react-router-dom'
+// import { store } from 'react-notifications-component';
+// import { Link } from 'react-router-dom'
 
 const columns = [
   { id: 'code', label: 'Category Code' },
@@ -36,7 +35,7 @@ const columns = [
   { id: 'action', label: 'Action' }
 ];
 
-const rows = [];
+// const rows = [];
 
 const useStyles = makeStyles({
   root: {
@@ -52,8 +51,8 @@ export default function Category(category) {
   const [open, setOpen] = useState(false);
   const [categoryInfo, setCategoryInfo] = useState({code: '', name: '', picture: ''});
   const [toggleCreateDialog, setToggleCreateDialog] = useState(false);
-  const [fileUrl, setFileUrl] = useState(null);
-  const [loadingData, setLoadingData] = useState(false);
+  // const [fileUrl, setFileUrl] = useState(null);
+  // const [loadingData, setLoadingData] = useState(false);
   const [loading, setLoading] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [cateCode, setCateCode] = useState(null);
@@ -69,7 +68,7 @@ export default function Category(category) {
 
   useEffect(() => {
     const fetchCateogries = async () => {
-      setLoadingData(true)
+      // setLoadingData(true)
       const db = fire.firestore();
       const data = await db
       .collection('categories')
@@ -77,12 +76,13 @@ export default function Category(category) {
       .limit(rowsPerPage)
       .startAt(page)
       .get();  
+
       const categories = data.docs.map(doc => ({
         ...doc.data(),
         id: doc.id
       }));
       setCategories(categories);
-      setLoadingData(false)
+      // setLoadingData(false)
       // console.log(categories, 'here is loading data');
     } 
     fetchCateogries();
@@ -313,7 +313,7 @@ export default function Category(category) {
         <DialogTitle id="alert-dialog-title">{"Confirmation"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          Are you sure you want to delete this category {categoryInfo.code}?
+            Are you sure you want to delete this category {categoryInfo.code}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -372,7 +372,7 @@ export default function Category(category) {
                 Upload Image
               </Button>
             </label> <br/>
-            <img alt="IMAGE" style={{width: 100, height:100, marginLeft: 20}} src={isImageChange ? previewImage : picture}/>
+            <img alt="#" style={{width: 100, height:100, marginLeft: 20}} src={isImageChange ? previewImage : picture}/>
           </DialogContent>
           <DialogActions>
             <Button onClick={closeCreateDialog} color="primary">

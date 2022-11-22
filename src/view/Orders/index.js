@@ -14,20 +14,15 @@ import TextField from '@material-ui/core/TextField';
 import { Autocomplete } from '@material-ui/lab';
 import {
   Typography,
-  IconButton,
   Grid,
   Button,
   DialogTitle,
-  DialogContentText,
   DialogContent,
   DialogActions,
   Dialog,
-  Avatar
 } from '@material-ui/core';
 
-import { Create, Delete, Search, Add } from '@material-ui/icons';
-import { store } from 'react-notifications-component';
-import { Link } from 'react-router-dom'
+import { Search } from '@material-ui/icons';
 import NumberFormat from 'react-number-format';
 
 const columns = [
@@ -41,7 +36,7 @@ const columns = [
   { id: 'status', label: 'Status' }
 ];
 
-const rows = [];
+// const rows = [];
 
 const useStyles = makeStyles({
   root: {
@@ -51,15 +46,19 @@ const useStyles = makeStyles({
     maxHeight: 440,
   }
 });
-const product = [{ code: 'TBBB', name: 'Iphone', price: 233, quantity: 1, picture: 'https://firebasestorage.googleapis.com/v0/b/thunder-mall-2400e.appspot.com/o/1936732220.png?alt=media&token=ccec8cf5-08bc-4bad-85bb-69aa742ef897' }]
+// const product = [{ code: 'TBBB', name: 'Iphone', price: 233, quantity: 1, picture: 'https://firebasestorage.googleapis.com/v0/b/thunder-mall-2400e.appspot.com/o/1936732220.png?alt=media&token=ccec8cf5-08bc-4bad-85bb-69aa742ef897' }]
 export default function Category(productCategory) {
+  const classes = useStyles();
+  
+  
+  // const [inputValue, setInputValue] = useState('');
   const [open, setDialogOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-
   const [orders, setOrders] = useState([])
-  const [categories, setCategories] = useState([])
+  const [categories] = useState([])
   const [products, setProducts] = useState([])
   const [productDetail, setProductDetail] = useState([])
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     const fetchorders = async () => {
@@ -77,7 +76,9 @@ export default function Category(productCategory) {
       setOrders(orders);
     }
     fetchorders();
+    //react-hooks/exhaustive-deps
   }, [productCategory, orders])
+  //react-hooks/exhaustive-deps
 
   const fetchProductOrder = async (items) => {
     const db = fire.firestore();
@@ -93,10 +94,6 @@ export default function Category(productCategory) {
     setProducts(products);
     console.log(products, 'here is last');
   }
-
-  const classes = useStyles();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleClose = () => {
     setDialogOpen(false);

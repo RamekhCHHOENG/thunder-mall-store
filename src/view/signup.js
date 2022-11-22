@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback } from "react";
 import { 
     Container,
     Box,
@@ -8,10 +8,10 @@ from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import fire from '../fire'
 import { withRouter } from "react-router"
-import { AuthContext } from "../Auth"
+// import { AuthContext } from "../Auth"
 
 const SignUp = ({history}) => {
-  const { currentUser, userData } = useContext(AuthContext);
+  // const { userData } = useContext(AuthContext);
   const handleSignUp = useCallback( async event => {
       event.preventDefault();
       const { email, password } = event.target.elements;
@@ -19,14 +19,15 @@ const SignUp = ({history}) => {
         await fire
         .auth() 
         .createUserWithEmailAndPassword(email.value, password.value);
-        if(!userData.emailVerified) {
-          alert('we have send u the verified email')
-          var user = fire.auth().currentUser
-          user.sendEmailVerification()
-          history.push('/emailverify')
-        } else {
-          history.push("/");
-        }
+        // if(!userData.emailVerified) {
+        //   alert('we have send u the verified email')
+        //   var user = fire.auth().currentUser
+        //   user.sendEmailVerification()
+        //   history.push('/emailverify')
+        // } else {
+        //   history.push("/");
+        // }
+        history.push("/");
       } catch(error) {
         alert(error)
       }
