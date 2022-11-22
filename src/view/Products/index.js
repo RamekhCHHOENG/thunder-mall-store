@@ -90,8 +90,10 @@ export default function Category(productCategory) {
       const data = await db
       .collection('products')
       .orderBy('code')
-      .limit(rowsPerPage)
-      .startAt(page)
+      .limit(10)
+      .startAt(0)
+      // .limit(rowsPerPage)
+      // .startAt(page)
       .get();  
       const products = data.docs.map(doc => ({
         ...doc.data(),

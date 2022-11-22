@@ -66,8 +66,10 @@ export default function Category(productCategory) {
       const data = await db
         .collection('orders')
         .orderBy('orderId')
-        .limit(rowsPerPage)
-        .startAt(page)
+        .limit(10)
+        .startAt(0)
+        // .limit(rowsPerPage)
+        // .startAt(page)
         .get();
       const orders = data.docs.map(doc => ({
         ...doc.data(),
