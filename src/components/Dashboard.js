@@ -12,15 +12,15 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Home, CreditCard, Category, Settings, ShoppingCart, PowerSettingsNew, Store } from '@material-ui/icons';
-import { Link } from 'react-router-dom' 
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
+// import ListItemText from '@material-ui/core/ListItemText';
+import { Home, Category, Settings, ShoppingCart, PowerSettingsNew, Store } from '@material-ui/icons';
+// import { Link } from 'react-router-dom' 
 import NavItem from './NavItem'
 import HomeFragement from '../view/Home'
 import MainCategory from '../view/Category/index'
-import PaymentFragment from '../view/Payment/PaymentMethod'
+// import PaymentFragment from '../view/Payment/PaymentMethod'
 import ProductsFragment from '../view/Products/index'
 import OrdersFragment from '../view/Orders/index'
 import SettingsFragement from '../view/Settings/index'
